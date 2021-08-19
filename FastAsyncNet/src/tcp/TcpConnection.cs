@@ -24,18 +24,23 @@ namespace FastAsyncNet
         {
             while (this.IsConnected())
             {
-                using (NetworkStream stream = this._client.GetStream())
+                try
                 {
-                    Byte[] bytes = new Byte[1024];
-                    int length;
-
-                    while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    using (NetworkStream stream = this._client.GetStream())
                     {
-                        var data = new byte[length];
-                        Array.Copy(bytes, 0, data, 0, length);
-                        this._handler.Handle(this, data);
+
+                        Byte[] bytes = new Byte[1024];
+                        int length;
+
+                        while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        {
+                            var data = new byte[length];
+                            Array.Copy(bytes, 0, data, 0, length);
+                            this._handler.Handle(this, data);
+                        }
                     }
                 }
+                catch (Exception) { }
             }
         }
 

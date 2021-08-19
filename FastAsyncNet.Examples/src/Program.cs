@@ -20,7 +20,6 @@ namespace example
         {
             res.AddHeader("X-Testing", "Hello World");
             res.Write("Hello World");
-            res.End();
         }
     }
 }
