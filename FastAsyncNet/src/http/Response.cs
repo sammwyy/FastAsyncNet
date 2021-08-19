@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Collections.Generic;
 
@@ -98,6 +99,52 @@ namespace FastAsyncNet
         {
             string result = this.HeadersToString();
             return result;
+        }
+
+        public static Response FromString(string raw)
+        {
+            Response res = new Response();
+            string[] lines = raw.Split("\n");
+
+            bool firstLine = true;
+            bool isBody = false;
+            string prevLine = "";
+
+            foreach (string line in lines)
+            {
+                if (firstLine)
+                {
+                    firstLine = false;
+                    string[] lineParts = line.Split(" ");
+                    if (lineParts.Length >= 2)
+                    {
+                        res.Version = lineParts[0];
+                        res.Status = Int32.Parse(lineParts[1]);
+                    }
+                }
+                else
+                {
+                    if (!isBody && line == "" && prevLine == "")
+                    {
+                        isBody = true;
+                    }
+
+                    if (!isBody)
+                    {
+                        string[] header = line.Split(": ");
+                        if (header.Length == 2)
+                        {
+                            string key = header[0];
+                            string value = header[1];
+                            res.AddHeader(key, value);
+                        }
+                    }
+                }
+
+                prevLine = line;
+            }
+
+            return res;
         }
     }
 }

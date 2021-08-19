@@ -213,5 +213,10 @@ namespace FastAsyncNet
             string result = this.HeadersToString();
             return result;
         }
+
+        public byte[] ToBytes()
+        {
+            return Encoding.UTF8.GetBytes(this.ToString());
+        }
     }
 }
