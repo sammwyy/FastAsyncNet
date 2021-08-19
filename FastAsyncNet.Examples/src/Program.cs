@@ -16,9 +16,11 @@ namespace example
 
     class Handler : HttpHandler
     {
-        public override void Handle(Request req)
+        public override void Handle(Request req, Response res)
         {
-            Console.WriteLine(req.Method + " " + req.FullPath + " - " + req.GetHeader("User-Agent"));
+            res.AddHeader("X-Testing", "Hello World");
+            res.Write("Hello World");
+            res.End();
         }
     }
 }

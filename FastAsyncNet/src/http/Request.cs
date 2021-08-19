@@ -208,16 +208,10 @@ namespace FastAsyncNet
             return result + "\n";
         }
 
-        /*
-                public override string ToString()
-                {
-                    string result = this.HeadersToString();
-                    if (this._body != null)
-                    {
-                        result += this._body;
-                    }
-                    return result;
-                }
-                */
+        public override string ToString()
+        {
+            string result = this.HeadersToString();
+            return result;
+        }
     }
 }
