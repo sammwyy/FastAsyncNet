@@ -16,7 +16,7 @@ namespace FastAsyncNet
 
         private ManualResetEvent _stop, _ready;
         private Queue<TcpClient> _queue;
-        private ServerHandler _handler;
+        private ChannelHandler _handler;
 
         public TcpServer(int port, string host, int threadPoolSize)
         {
@@ -31,7 +31,7 @@ namespace FastAsyncNet
         public TcpServer(int port, string host) : this(port, host, 128) { }
         public TcpServer(int port) : this(port, "127.0.0.1", 128) { }
 
-        public void SetHandler(ServerHandler handler)
+        public void SetHandler(ChannelHandler handler)
         {
             this._handler = handler;
         }

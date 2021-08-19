@@ -8,10 +8,10 @@ namespace FastAsyncNet
     public class TcpConnection : Connection
     {
         private TcpClient _client;
-        private ServerHandler _handler;
+        private ChannelHandler _handler;
         private Thread _thread;
 
-        public TcpConnection(TcpClient client, ServerHandler handler)
+        public TcpConnection(TcpClient client, ChannelHandler handler)
         {
             this._client = client;
             this._handler = handler;
