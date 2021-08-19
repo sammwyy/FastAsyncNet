@@ -12,7 +12,7 @@ namespace FastAsyncNet
 
         public void Write(string data)
         {
-            this.Write(Encoding.ASCII.GetBytes(data));
+            this.Write(Encoding.UTF8.GetBytes(data));
         }
     }
 }
