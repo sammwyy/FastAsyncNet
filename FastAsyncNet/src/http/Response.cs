@@ -7,7 +7,7 @@ namespace FastAsyncNet
     public class Response
     {
         public string Version = "HTTP/1.1";
-        private int Status = 200;
+        public int Status = 200;
         private Dictionary<string, string> Headers;
         private Connection connection;
         private bool _hasSentHeaders = false;

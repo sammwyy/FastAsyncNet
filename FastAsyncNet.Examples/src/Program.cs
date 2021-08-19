@@ -1,4 +1,5 @@
-﻿using FastAsyncNet;
+﻿using System;
+using FastAsyncNet;
 
 namespace example
 {
@@ -14,7 +15,8 @@ namespace example
             */
 
             HTTPClient client = HTTPClient.createHTTPClient("http://google.com/");
-            client.Send();
+            Response res = client.Send();
+            Console.WriteLine(res.Status);
         }
     }
 
