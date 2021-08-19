@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\FastAsyncHTTP\FastAsyncHTTP.csproj" />
+    <ProjectReference Include="..\FastAsyncNet\FastAsyncNet.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
