@@ -8,11 +8,11 @@ namespace FastAsyncNet
 
         public abstract bool IsConnected();
 
-        public abstract void Send(byte[] data);
+        public abstract void Write(byte[] data);
 
-        public void Send(string data)
+        public void Write(string data)
         {
-            this.Send(Encoding.ASCII.GetBytes(data));
+            this.Write(Encoding.ASCII.GetBytes(data));
         }
     }
 }

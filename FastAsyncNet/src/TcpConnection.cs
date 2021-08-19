@@ -49,10 +49,13 @@ namespace FastAsyncNet
             return this._client.Connected;
         }
 
-        public override void Send(byte[] data)
+        public override void Write(byte[] data)
         {
-            this._client.GetStream().Write(data, 0, data.Length);
-            this._client.GetStream().Flush();
+            NetworkStream stream = this._client.GetStream();
+            if (stream.CanWrite)
+            {
+                this._client.GetStream().Write(data, 0, data.Length);
+            }
         }
     }
 }
