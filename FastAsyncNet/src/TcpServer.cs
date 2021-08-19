@@ -18,15 +18,18 @@ namespace FastAsyncNet
         private Queue<TcpClient> _queue;
         private ServerHandler _handler;
 
-        public TcpServer(int port, string host)
+        public TcpServer(int port, string host, int threadPoolSize)
         {
             this._stop = new ManualResetEvent(false);
             this._ready = new ManualResetEvent(false);
             this._listener = new TcpListener(IPAddress.Parse(host), port);
             this._thread = new Thread(Handle);
             this._queue = new Queue<TcpClient>();
-            this._workers = new Thread[256];
+            this._workers = new Thread[threadPoolSize];
         }
+
+        public TcpServer(int port, string host) : this(port, host, 128) { }
+        public TcpServer(int port) : this(port, "127.0.0.1", 128) { }
 
         public void SetHandler(ServerHandler handler)
         {
