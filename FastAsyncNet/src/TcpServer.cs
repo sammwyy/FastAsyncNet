@@ -16,6 +16,7 @@ namespace FastAsyncNet
 
         private ManualResetEvent _stop, _ready;
         private Queue<TcpClient> _queue;
+        private ServerHandler _handler;
 
         public TcpServer(int port, string host)
         {
@@ -25,6 +26,11 @@ namespace FastAsyncNet
             this._thread = new Thread(Handle);
             this._queue = new Queue<TcpClient>();
             this._workers = new Thread[256];
+        }
+
+        public void SetHandler(ServerHandler handler)
+        {
+            this._handler = handler;
         }
 
         private void AcceptClientCallback(IAsyncResult ar)
@@ -76,7 +82,8 @@ namespace FastAsyncNet
 
                 try
                 {
-                    TcpConnection connection = new TcpConnection(client);
+                    TcpConnection connection = new TcpConnection(client, this._handler);
+                    this._handler.HandleConnection(connection);
                 }
                 catch (Exception e)
                 {
@@ -87,6 +94,11 @@ namespace FastAsyncNet
 
         public void Listen()
         {
+            if (this._handler == null)
+            {
+                throw new Exception("No handler defined in Server. You maybe forgot to use server.SetHandler(handler:ServerHandler)?");
+            };
+
             this._listener.Start();
             this._thread.Start();
 

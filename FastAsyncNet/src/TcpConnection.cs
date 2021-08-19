@@ -8,12 +8,13 @@ namespace FastAsyncNet
     public class TcpConnection : Connection
     {
         private TcpClient _client;
-
+        private ServerHandler _handler;
         private Thread _thread;
 
-        public TcpConnection(TcpClient client)
+        public TcpConnection(TcpClient client, ServerHandler handler)
         {
             this._client = client;
+            this._handler = handler;
             // this._stream = client.GetStream();
             this._thread = new Thread(this.ReadClient);
             this._thread.Start();
@@ -32,19 +33,10 @@ namespace FastAsyncNet
                     {
                         var data = new byte[length];
                         Array.Copy(bytes, 0, data, 0, length);
-                        this.ReadPacket(data);
+                        this._handler.Handle(this, data);
                     }
                 }
             }
-        }
-
-        private void ReadPacket(byte[] buffer)
-        {
-            string data = Encoding.ASCII.GetString(buffer);
-            Console
-                .WriteLine("Client: " +
-                data);
-            this.Send("HTTP/1.1 200 OK\nContent-Length: 4\n\nTest");
         }
 
         public override void Close()
