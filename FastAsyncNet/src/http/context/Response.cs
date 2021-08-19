@@ -1,34 +1,20 @@
 using System;
 using System.Text;
-using System.Collections.Generic;
 
 namespace FastAsyncNet
 {
-    public class Response
+    public class Response : HTTPContextProp
     {
         public string Version = "HTTP/1.1";
         public int Status = 200;
-        private Dictionary<string, string> Headers;
         private Connection connection;
         private bool _hasSentHeaders = false;
 
-        public Response()
-        {
-            this.Headers = new Dictionary<string, string>();
-        }
+        public Response() { }
 
-        public Response(Connection connection) : this()
+        public Response(Connection connection)
         {
             this.connection = connection;
-        }
-
-        public void AddHeader(string key, object value)
-        {
-            if (this.HasHeader(key))
-            {
-                this.DeleteHeader(key);
-            }
-            this.Headers.Add(key, value.ToString());
         }
 
         public void End()
@@ -40,29 +26,7 @@ namespace FastAsyncNet
             this.connection.Close();
         }
 
-        public void DeleteHeader(string key)
-        {
-            this.Headers.Remove(key);
-        }
-
-        public string GetHeader(string key)
-        {
-            if (this.HasHeader(key))
-            {
-                return this.Headers[key];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public bool HasHeader(string key)
-        {
-            return this.Headers.ContainsKey(key);
-        }
-
-        public string HeadersToString()
+        public override string HeadersToString()
         {
             string result = this.Version.ToUpper() + " " + this.Status + " OK\n";
 
@@ -93,12 +57,6 @@ namespace FastAsyncNet
         public void Write(string data)
         {
             this.Write(Encoding.ASCII.GetBytes(data));
-        }
-
-        public override string ToString()
-        {
-            string result = this.HeadersToString();
-            return result;
         }
 
         public static Response FromString(string raw)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FastAsyncNet
 {
-    public class Request
+    public class Request : HTTPContextProp
     {
         // Mandatory data
         public string Method = "get";
@@ -13,7 +13,6 @@ namespace FastAsyncNet
         public string Version = "HTTP/1.1";
 
         // Optional data
-        public Dictionary<string, string> Headers;
 
         public Dictionary<string, string> Query;
 
@@ -102,15 +101,6 @@ namespace FastAsyncNet
             }
         }
 
-        public void AddHeader(string key, object value)
-        {
-            if (this.HasHeader(key))
-            {
-                this.DeleteHeader(key);
-            }
-            this.Headers.Add(key, value.ToString());
-        }
-
         public void AddQuery(string key, object value)
         {
             if (this.HasQuery(key))
@@ -119,37 +109,14 @@ namespace FastAsyncNet
             }
             this.Query.Add(key, value.ToString());
         }
-
-        public void DeleteHeader(string key)
-        {
-            this.Headers.Remove(key);
-        }
-
         public void DeleteQuery(string key)
         {
             this.Query.Remove(key);
         }
 
-        public bool HasHeader(string key)
-        {
-            return this.Headers.ContainsKey(key);
-        }
-
         public bool HasQuery(string key)
         {
             return this.Query.ContainsKey(key);
-        }
-
-        public string GetHeader(string key)
-        {
-            if (this.HasHeader(key))
-            {
-                return this.Headers[key];
-            }
-            else
-            {
-                return null;
-            }
         }
 
         public string GetQuery(string key)
@@ -191,7 +158,7 @@ namespace FastAsyncNet
             return result;
         }
 
-        public string HeadersToString()
+        public override string HeadersToString()
         {
             string result =
                 this.Method.ToUpper() +
@@ -206,17 +173,6 @@ namespace FastAsyncNet
             }
 
             return result + "\n";
-        }
-
-        public override string ToString()
-        {
-            string result = this.HeadersToString();
-            return result;
-        }
-
-        public byte[] ToBytes()
-        {
-            return Encoding.UTF8.GetBytes(this.ToString());
         }
     }
 }
