@@ -60,6 +60,12 @@ namespace FastAsyncNet
         public static Dictionary<string, string> ParseQuery(string rawQuery)
         {
             Dictionary<string, string> query = new Dictionary<string, string>();
+
+            if (rawQuery == "")
+            {
+                return query;
+            }
+
             string[] parts = rawQuery.Split("&");
             foreach (string part in parts)
             {
