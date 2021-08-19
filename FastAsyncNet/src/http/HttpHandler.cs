@@ -1,4 +1,3 @@
-using System.Text;
 namespace FastAsyncNet
 {
     public class HttpHandler : ChannelHandler

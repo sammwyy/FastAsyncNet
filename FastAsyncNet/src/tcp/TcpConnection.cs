@@ -22,10 +22,19 @@ namespace FastAsyncNet
 
         private void ReadClient()
         {
+            var stream = this._client.GetStream();
+            Byte[] bytes = new byte[2056];
+            int i;
+
             while (this.IsConnected())
             {
                 try
                 {
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        this._handler.Handle(this, bytes);
+                    }
+                    /*
                     using (NetworkStream stream = this._client.GetStream())
                     {
 
@@ -39,6 +48,7 @@ namespace FastAsyncNet
                             this._handler.Handle(this, data);
                         }
                     }
+                    */
                 }
                 catch (Exception) { }
             }
