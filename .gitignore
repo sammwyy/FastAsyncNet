@@ -1,0 +1,6 @@
+# Build / Compilation directories.
+bin/
+obj/
+
+# VSCode
+.vscode/
