@@ -7,10 +7,9 @@ namespace example
     {
         static void Main(string[] args)
         {
-            Server server = new Server(8080, "127.0.0.1");
+            TcpServer server = new TcpServer(8080, "127.0.0.1");
             Console.WriteLine("1Test");
-            server.StartAsync();
-            Console.WriteLine("2Test");
+            server.Listen();
         }
     }
 }

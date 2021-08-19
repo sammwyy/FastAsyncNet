@@ -85,6 +85,18 @@ namespace FastAsyncNet
             }
         }
 
+        public void Listen()
+        {
+            this._listener.Start();
+            this._thread.Start();
+
+            for (int i = 0; i < this._workers.Length; i++)
+            {
+                this._workers[i] = new Thread(this.Worker);
+                this._workers[i].Start();
+            }
+        }
+
         public void Stop()
         {
             this._listener.Stop();

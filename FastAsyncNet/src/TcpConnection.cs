@@ -31,20 +31,20 @@ namespace FastAsyncNet
                     while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
                         var data = new byte[length];
-                        this.ReadPacket(data, length);
+                        Array.Copy(bytes, 0, data, 0, length);
+                        this.ReadPacket(data);
                     }
                 }
             }
         }
 
-        private void ReadPacket(byte[] buffer, int readableBytes)
+        private void ReadPacket(byte[] buffer)
         {
-            string data = Encoding.ASCII.GetString(buffer, 0, readableBytes);
+            string data = Encoding.ASCII.GetString(buffer);
             Console
-                .WriteLine("Client (Readable bytes " +
-                readableBytes +
-                ") as String: " +
+                .WriteLine("Client: " +
                 data);
+            this.Send("HTTP/1.1 200 OK\nContent-Length: 4\n\nTest");
         }
 
         public override void Close()
