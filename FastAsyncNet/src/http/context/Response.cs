@@ -66,7 +66,6 @@ namespace FastAsyncNet
 
             bool firstLine = true;
             bool isBody = false;
-            string prevLine = "";
 
             foreach (string line in lines)
             {
@@ -82,7 +81,7 @@ namespace FastAsyncNet
                 }
                 else
                 {
-                    if (!isBody && line == "" && prevLine == "")
+                    if (!isBody && line.Trim() == "")
                     {
                         isBody = true;
                     }
@@ -97,11 +96,13 @@ namespace FastAsyncNet
                             res.AddHeader(key, value);
                         }
                     }
+
+                    else
+                    {
+                        res.Body.AppendLine(line);
+                    }
                 }
-
-                prevLine = line;
             }
-
             return res;
         }
     }

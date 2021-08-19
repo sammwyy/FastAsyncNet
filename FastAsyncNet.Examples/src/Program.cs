@@ -14,9 +14,9 @@ namespace example
             Console.WriteLine("Started Server");
             */
 
-            HTTPClient client = HTTPClient.createHTTPClient("http://google.com/");
+            HTTPClient client = HTTPClient.createHTTPClient("http://2lstudios.dev/");
             Response res = client.Send();
-            Console.WriteLine(res.Status);
+            Console.WriteLine(res.Body.GetAsString());
         }
     }
 

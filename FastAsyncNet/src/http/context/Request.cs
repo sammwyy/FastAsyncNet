@@ -67,6 +67,10 @@ namespace FastAsyncNet
                             }
                         }
                     }
+                    else
+                    {
+                        req.Body.Append(line);
+                    }
                 }
 
                 prevLine = line;

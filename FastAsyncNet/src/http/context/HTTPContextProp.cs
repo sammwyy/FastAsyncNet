@@ -6,6 +6,7 @@ namespace FastAsyncNet
     public abstract class HTTPContextProp
     {
         public Dictionary<string, string> Headers = new Dictionary<string, string>();
+        public Body Body = new Body();
 
         public abstract string HeadersToString();
         public void AddHeader(string key, object value)
@@ -41,7 +42,7 @@ namespace FastAsyncNet
 
         public override string ToString()
         {
-            string result = this.HeadersToString();
+            string result = this.HeadersToString() + this.Body.GetAsString();
             return result;
         }
 
