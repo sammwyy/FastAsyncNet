@@ -81,7 +81,7 @@ namespace FastAsyncNet
 
         public static Request FromBytes(byte[] buffer)
         {
-            return Request.FromString(Encoding.ASCII.GetString(buffer));
+            return Request.FromString(Encoding.UTF8.GetString(buffer));
         }
 
         public string Path

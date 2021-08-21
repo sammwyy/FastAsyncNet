@@ -31,15 +31,18 @@ namespace FastAsyncNet
 
         public Response Send(int timeout)
         {
+            // Connect
             this.client.Connect(this.address, this.port);
-            Stream stream = this.client.GetStream();
+            NetworkStream stream = new NetworkStream(this.client.Client);
+            // Stream stream = this.client.GetStream();
+
+            // Send request
             byte[] bytes = this.request.ToBytes();
             stream.Write(bytes, 0, bytes.Length);
 
-            byte[] bb = new byte[1024];
-            int k = stream.Read(bb, 0, bb.Length);
+            // Receive response
+            String response = StreamUtils.ReadStreamToEnd(stream);
 
-            string response = Encoding.UTF8.GetString(bb);
             return Response.FromString(response);
         }
 
